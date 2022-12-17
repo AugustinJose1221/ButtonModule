@@ -1,3 +1,16 @@
+/**
+ * @file HAL.h
+ * @author Augustin Jose
+ * @brief Header file with all the includes, enums and 
+ * public functions for mocking the hardware abstraction
+ * layer for GPIO control
+ * @version 0.1
+ * @date 2022-12-17
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #ifndef _HAL_H_
 #define _HAL_H_
 

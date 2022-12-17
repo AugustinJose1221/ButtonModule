@@ -1,3 +1,14 @@
+/**
+ * @file tests.c
+ * @author Augustin Jose
+ * @brief This file contains all the test functions for 
+ * running test cases on the butonModule functionalities.
+ * @version 0.1
+ * @date 2022-12-17
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "tests.h"
 #include "../utils/HAL.h"
 #include "testConfig.h"
