@@ -27,7 +27,16 @@
 
 static void runButtonStateMachine(Button_t *a_handle);
 
-/* Public functions */
+/* Public functions.................................................................. */
+
+/**
+ * @brief To initialize the buttons with their GPIO pins
+ * 
+ * @param a_handle Button handle
+ * @param a_pin GPIO pin
+ * @param a_fnptr Pointer to the function to get GPIO pin state
+ * @param a_args Pointer to arguments that needed to passed to the callback function
+ */
 void Button_Init(Button_t *a_handle, gpioPin a_pin, GpioState_t a_fnptr, void *a_args)
 {
     _Static_assert(BUTTON_TIMER_TICK_PERIOD, "BUTTON_TIMER_TICK_PERIOD not configured!");
@@ -50,6 +59,13 @@ void Button_Init(Button_t *a_handle, gpioPin a_pin, GpioState_t a_fnptr, void *a
     }
 }
 
+/**
+ * @brief To connect a button press event to its event handler
+ * 
+ * @param a_handle Button handle
+ * @param a_event Button press enum
+ * @param a_eventHandle Pointer to the event handler
+ */
 void Button_ConnectEvent(Button_t *a_handle, ButtonPress_t a_event, EventHandler_t a_eventHandle)
 {
     assert((a_handle != NULL));
@@ -59,6 +75,12 @@ void Button_ConnectEvent(Button_t *a_handle, ButtonPress_t a_event, EventHandler
     a_handle->callbackList[a_event] = a_eventHandle;
 }
 
+/**
+ * @brief To disconnect an event handler from its event handler
+ * 
+ * @param a_handle Button handle
+ * @param a_event Button press enum
+ */
 void Button_DisconnectEvent(Button_t *a_handle, ButtonPress_t a_event)
 {
     assert((a_handle != NULL));
@@ -67,6 +89,11 @@ void Button_DisconnectEvent(Button_t *a_handle, ButtonPress_t a_event)
     a_handle->callbackList[a_event] = NULL;
 }
 
+/**
+ * @brief To initialize the linked list of buttons
+ * 
+ * @param a_list Button list handle
+ */
 void Button_InitializeList(ButtonList_t *a_list)
 {
     assert((a_list != NULL));
@@ -76,6 +103,12 @@ void Button_InitializeList(ButtonList_t *a_list)
 
 }
 
+/**
+ * @brief To add a button to the linked list
+ * 
+ * @param a_list Button list handle
+ * @param a_handle Button handle
+ */
 void Button_AddToList(ButtonList_t *a_list, Button_t *a_handle)
 {
     assert((a_list != NULL));
@@ -95,7 +128,12 @@ void Button_AddToList(ButtonList_t *a_list, Button_t *a_handle)
     a_list->buttonCount++;
 }
 
-/* Frequency of this function call is defined by BUTTON_TIMER_TICK_PERIOD */
+/**
+ * @brief To periodically run the state machine for all the buttons in the linked list
+ * 
+ * @param a_list Button list handle
+ * @note Frequency of this function call is defined by BUTTON_TIMER_TICK_PERIOD 
+ */
 void Button_PeriodicTask(ButtonList_t *a_list)
 {
     // assert!
@@ -107,7 +145,13 @@ void Button_PeriodicTask(ButtonList_t *a_list)
     }
 }
 
-/* Private functions */
+/* Private functions................................................................... */
+
+/**
+ * @brief State machine controlling the internal states of each buttons
+ * 
+ * @param a_handle Button handle
+ */
 static void runButtonStateMachine(Button_t *a_handle)
 {
     ButtonState_t pinState = a_handle->getGpioPinState(a_handle->pin);
